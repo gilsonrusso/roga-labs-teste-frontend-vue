@@ -1,5 +1,10 @@
 <template>
-  <v-card class="pa-2 rounded" elevation="3" min-width="280px">
+  <v-card
+    class="pa-2 rounded"
+    elevation="3"
+    min-width="280px"
+    :class="{ disabled: data.disabled }"
+  >
     <v-row>
       <v-card-actions>
         <v-list-item class="grow">
@@ -76,5 +81,9 @@ export default {
 .text-details {
   color: var(--font-color);
   font-size: 0.8rem;
+}
+
+.theme--light.v-card.disabled {
+  background-color: var(--third-color) !important;
 }
 </style>

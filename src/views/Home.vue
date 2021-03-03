@@ -71,6 +71,13 @@
                         required
                       ></v-text-field>
                     </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-switch
+                        v-model="user.disabled"
+                        class="ma-2"
+                        label="Disabled"
+                      ></v-switch>
+                    </v-col>
                   </v-row>
                 </v-container>
                 <small>*indicação de campos obrigatórios</small>
@@ -128,6 +135,7 @@ export default {
       email: "",
       age: "",
       phone: "",
+      disabled: false,
     },
     users: [],
     items: ["Ativos", "Inativos"],
