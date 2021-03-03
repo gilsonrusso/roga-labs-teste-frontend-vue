@@ -6,8 +6,9 @@
 }
 
 :root {
-  --main-color: #FF6450;
-  --hover-color: #2764ba;
+  --main-color: #e65100;
+  --hover-color: #ef6c00;
+  --second-color: #280e95;
   --font-color: #818181;
   --box-color: white;
 }

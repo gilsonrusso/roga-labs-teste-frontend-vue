@@ -27,7 +27,7 @@
           ><small class="text-details">{{ data.email }}</small></span
         >
         <span class="d-block"
-          ><small class="text-details">{{ data.age }} {{ data.phone }}</small></span
+          ><small class="text-details">{{ data.age }} anos (092) {{ data.phone }}</small></span
         >
       </v-col>
       <v-col cols="4">
@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: "Card",
+  name: "card-component",
   props: ["data"],
 };
 </script>
