@@ -7,7 +7,8 @@
             <v-text-field
               :disabled="users.length == 0"
               outlined
-              label="Busque por nomes ou emails"
+              label="Busque por nomes"
+              v-model="search"
               append-icon="mdi-magnify"
             ></v-text-field>
           </v-form>
@@ -99,7 +100,7 @@
       >
       <v-col
         v-else
-        v-for="card in users"
+        v-for="card in filteredCards"
         :key="card.id"
         cols="12"
         sm="3"
@@ -131,6 +132,7 @@ export default {
     users: [],
     items: ["Ativos", "Inativos"],
     dialog: false,
+    search: "",
   }),
   methods: {
     saveUser() {
@@ -186,6 +188,13 @@ export default {
   },
   created() {
     this.getUserLocalStorage();
+  },
+  computed: {
+    filteredCards: function () {
+      return this.users.filter((user) => {
+        return user.name.match(this.search);
+      });
+    },
   },
 };
 </script>
