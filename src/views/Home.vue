@@ -5,6 +5,7 @@
         <v-flex>
           <v-form>
             <v-text-field
+              :disabled="users.length == 0"
               outlined
               label="Busque por nomes ou emails"
               append-icon="mdi-magnify"
@@ -16,7 +17,13 @@
       <v-col cols="4" class="d-flex">
         <v-col cols="6" class="d-flex">
           <span class="pr-2 py-2"><strong>Filtros:</strong></span>
-          <v-select :items="items" label="Todos" dense solo></v-select>
+          <v-select
+            :disabled="users.length == 0"
+            :items="items"
+            label="Todos"
+            dense
+            solo
+          ></v-select>
         </v-col>
         <v-col cols="6">
           <!-- Dialog -->
@@ -49,6 +56,8 @@
                       <v-text-field
                         label="Idade*"
                         v-model="user.age"
+                        max="80"
+                        min="10"
                         type="number"
                         required
                       ></v-text-field>
@@ -66,7 +75,7 @@
                 <small>*indicação de campos obrigatórios</small>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="blue darken-1" text @click="dialog = false"
+                <v-btn color="blue darken-1" text @click="cancel()"
                   ><strong>Cancelar</strong></v-btn
                 >
                 <v-spacer></v-spacer>
@@ -85,8 +94,8 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-row v-if="!users" class="justify-center my-10"
-        ><h3 class="title">Sem registros no sistema!</h3></v-row
+      <v-row v-if="users.length == 0" class="justify-center my-10"
+        ><h3 class="title">Não há usuários cadastrados</h3></v-row
       >
       <v-col
         v-else
@@ -96,7 +105,7 @@
         sm="3"
         md="3"
       >
-        <Card :data="card" />
+        <Card :data="card" @emitir="editUser(card)" />
       </v-col>
     </v-row>
   </v-container>
@@ -134,7 +143,16 @@ export default {
 
       if (users) {
         users = JSON.parse(users);
-        users.push(newUser);
+
+        const userFindIndex = users.findIndex(
+          (user) => user.id === this.user.id
+        );
+
+        if (userFindIndex < 0) {
+          users.push(newUser);
+        } else {
+          users[userFindIndex] = this.user;
+        }
       } else {
         users = [{ ...newUser }];
       }
@@ -151,10 +169,19 @@ export default {
       }
     },
     cleanDialog() {
-      (this.user.name = ""),
+      (this.user.id = ""),
+        (this.user.name = ""),
         (this.user.email = ""),
         (this.user.age = ""),
         (this.user.phone = "");
+    },
+    editUser(card) {
+      this.user = { ...card };
+      this.dialog = true;
+    },
+    cancel() {
+      this.cleanDialog();
+      this.dialog = false;
     },
   },
   created() {

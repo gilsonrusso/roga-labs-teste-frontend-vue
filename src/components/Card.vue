@@ -27,12 +27,21 @@
           ><small class="text-details">{{ data.email }}</small></span
         >
         <span class="d-block"
-          ><small class="text-details">{{ data.age }} anos (092) {{ data.phone }}</small></span
+          ><small class="text-details"
+            >{{ data.age }} anos (092) {{ data.phone }}</small
+          ></span
         >
       </v-col>
       <v-col cols="4">
         <v-row class="justify-space-around">
-          <v-btn rounded x-small height="40" width="40" color="grey lighten-5">
+          <v-btn
+            @click="edit"
+            rounded
+            x-small
+            height="40"
+            width="40"
+            color="grey lighten-5"
+          >
             <v-icon color="blue accent-4"> mdi-pencil </v-icon>
           </v-btn>
           <v-btn
@@ -55,6 +64,11 @@
 export default {
   name: "card-component",
   props: ["data"],
+  methods: {
+    edit() {
+      this.$emit("emitir", this.card);
+    },
+  },
 };
 </script>
 
