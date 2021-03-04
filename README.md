@@ -1,4 +1,16 @@
-# roga-labs-teste-frontend-vue
+# Roga Labs - Dashboard Test 
+
+<p align="center">
+  <img width="460" src="src/assets/ToREADME/users.png" /> 
+</p>
+
+
+## Description in Português Language
+Uma aplicação web desenvolvida com as tecnologias do [VueJs] https://br.vuejs.org/ junto com a biblioteca do [vuetify] https://vuetifyjs.com/en/
+Está app monstra um modelo de dashboard de cadastro, que contém apenas uma view e um modal-dialog para fazer os cadastros, onde seus dados são persistidos
+diretamente no localStorage.
+
+#### Below are instructions for downloading the project and running on your machine. 
 
 ## Project setup
 ```
@@ -9,16 +21,16 @@ yarn install
 ```
 yarn serve
 ```
+### Screen create new user 
+<p align="center">
+  <img width="360" src="src/assets/ToREADME/add_user.png" /> 
+</p>
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### Screen no one user 
+<p align="center">
+  <img width="360" src="src/assets/ToREADME/no_user.png" /> 
+</p>
 
-### Lints and fixes files
-```
-yarn lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
