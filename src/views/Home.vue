@@ -1,151 +1,92 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="d-flex align-center">
       <v-col cols="4">
         <v-flex>
           <v-form>
             <v-text-field
               :disabled="users.length == 0"
               outlined
-              label="Busque por nomes"
+              label="Busque por nomes ou e-mail"
               v-model="search"
               append-icon="mdi-magnify"
             ></v-text-field>
           </v-form>
         </v-flex>
       </v-col>
-      <v-col cols="4"></v-col>
-      <v-col cols="4" class="d-flex">
+      <v-spacer></v-spacer>
+      <v-col cols="5" class="d-flex">
         <v-col cols="6" class="d-flex">
-          <span class="pr-2 py-2"><strong>Filtros:</strong></span>
+          <span class="py-3 mr-1"><strong>Filtros:</strong></span>
           <v-select
-            :disabled="users.length == 0"
             :items="items"
-            label="Todos"
-            dense
+            label="Escolha"
+            v-model="filter"
+            :disabled="users.length == 0"
             solo
           ></v-select>
         </v-col>
         <v-col cols="6">
-          <!-- Dialog -->
-          <v-dialog v-model="dialog" persistent max-width="600px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn dark v-bind="attrs" v-on="on"> Novo Aluno </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Cadastro de Aluno</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-text-field
-                        label="Nome*"
-                        v-model="user.name"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        label="Email*"
-                        required
-                        v-model="user.email"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        label="Idade*"
-                        v-model="user.age"
-                        max="80"
-                        min="10"
-                        type="number"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        label="Telefone*"
-                        v-model="user.phone"
-                        type="text"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-switch
-                        v-model="user.disabled"
-                        class="ma-2"
-                        label="Disabled"
-                      ></v-switch>
-                    </v-col>
-                  </v-row>
-                </v-container>
-                <small>*indicação de campos obrigatórios</small>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="blue darken-1" text @click="cancel()"
-                  ><strong>Cancelar</strong></v-btn
-                >
-                <v-spacer></v-spacer>
-                <v-btn
-                  class="btn-styled"
-                  color="blue darken-1"
-                  text
-                  @click="saveUser(user)"
-                  >Salvar</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <!-- Dialog -->
+          <Popup
+            @closeDialog="cancel"
+            :isOpen="openDialog"
+            :user="user"
+            @save="saveUser"
+          />
+          <v-btn @click="open">Adicionar</v-btn>
         </v-col>
       </v-col>
     </v-row>
     <v-row>
-      <v-row v-if="users.length == 0" class="justify-center my-10"
+      <v-row v-show="users.length == 0" class="justify-center my-10"
         ><h3 class="title">Não há usuários cadastrados</h3></v-row
       >
-      <v-col
-        v-else
-        v-for="card in filteredCards"
-        :key="card.id"
-        cols="12"
-        sm="3"
-        md="3"
-      >
-        <Card :data="card" @emitir="editUser(card)" />
-      </v-col>
+      <v-row v-if="users.length > 0">
+        <v-col
+          v-for="card in filteredNameAndEmail"
+          :key="card.id"
+          cols="12"
+          sm="3"
+          md="3"
+        >
+          <Card :data="card" @emitir="editUser(card)" />
+        </v-col>
+      </v-row>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import Popup from "../components/Popup";
 import { uuid } from "vue-uuid";
 import Card from "../components/Card";
 export default {
   name: "home-component",
   components: {
     Card,
+    Popup,
   },
   data: () => ({
+    uuid: uuid.v4(),
     user: {
       name: "",
       lastReview: "03/03/2021",
-      image: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
+      image: "https://cdn.vuetifyjs.com/images/john.jpg",
       email: "",
       age: "",
       phone: "",
       disabled: false,
     },
     users: [],
-    items: ["Ativos", "Inativos"],
-    dialog: false,
+    items: ["Todos", "Ativos", "Inativos"],
+    openDialog: false,
     search: "",
+    filter: "todos",
   }),
   methods: {
     saveUser() {
       const newUser = {
-        id: uuid.v4(),
+        id: this.uuid,
         ...this.user,
       };
 
@@ -169,7 +110,7 @@ export default {
       localStorage.setItem("usersApp", JSON.stringify(users));
       this.getUserLocalStorage();
       this.cleanDialog();
-      this.dialog = false;
+      this.openDialog = false;
     },
     getUserLocalStorage() {
       let usersStorage = localStorage.getItem("usersApp");
@@ -185,22 +126,29 @@ export default {
         (this.user.age = ""),
         (this.user.phone = "");
     },
+    open() {
+      this.openDialog = true;
+    },
     editUser(card) {
       this.user = { ...card };
-      this.dialog = true;
+      this.openDialog = true;
     },
     cancel() {
       this.cleanDialog();
-      this.dialog = false;
+      this.openDialog = false;
     },
   },
   created() {
     this.getUserLocalStorage();
   },
+  updated() {
+    this.uuid = uuid.v4();
+  },
   computed: {
-    filteredCards: function () {
+    filteredNameAndEmail: function () {
       return this.users.filter((user) => {
-        return user.name.match(this.search);
+        let union = user.name + user.email;
+        return union.match(this.search);
       });
     },
   },

@@ -3,6 +3,8 @@
     class="pa-2 rounded"
     elevation="3"
     min-width="280px"
+    height="150px"
+    max-height="150px"
     :class="{ disabled: data.disabled }"
   >
     <v-row>
