@@ -37,10 +37,10 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
-                label="Telefone*"
+                label="Telefone* DDDXXXXXXXX"
                 :rules="phoneRules"
                 v-model="user.phone"
-                counter="11"
+                counter="12"
                 type="text"
                 required
               ></v-text-field>
@@ -98,7 +98,7 @@ export default {
       phoneRules: [
         (value) => !!value || "Required.",
         (value) =>
-          (value || "").length <= 11 || "Número máximo de caracterer é 11",
+          (value || "").length <= 12 || "Número máximo de caracterer é 12",
         (value) => {
           const pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
           return pattern.test(value) || "Nome Inválido!.";

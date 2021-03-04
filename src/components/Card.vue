@@ -16,7 +16,7 @@
 
           <v-list-item-content>
             <v-list-item-title
-              ><strong>{{ data.name }}</strong></v-list-item-title
+              ><strong>{{ data.name | nameMask }}</strong></v-list-item-title
             >
             <v-list-item-title
               ><small class="text-details"
@@ -35,7 +35,7 @@
         >
         <span class="d-block"
           ><small class="text-details"
-            >{{ data.age }} anos (092) {{ data.phone }}</small
+            >{{ data.age }} anos {{ data.phone | phoneMask }}</small
           ></span
         >
       </v-col>
@@ -87,5 +87,6 @@ export default {
 
 .theme--light.v-card.disabled {
   background-color: var(--third-color) !important;
+  box-shadow: none !important;
 }
 </style>

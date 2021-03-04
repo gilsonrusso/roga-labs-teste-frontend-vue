@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="d-flex align-center">
-      <v-col cols="12" xs="12" sm="12" md="4" lg="4">
+      <v-col cols="12" xs="12" sm="12" md="4" lg="4" class="col-main-one">
         <v-text-field
           :disabled="users.length == 0"
           outlined
@@ -12,7 +12,14 @@
       </v-col>
       <v-spacer class="space-container"></v-spacer>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="d-flex">
-        <v-col cols="8" xs="6" sm="6" md="6" lg="6" class="d-flex">
+        <v-col
+          cols="8"
+          xs="6"
+          sm="6"
+          md="6"
+          lg="6"
+          class="d-flex col-filter-display"
+        >
           <span class="py-3 mr-1"><strong>Filtros:</strong></span>
           <v-select
             :items="items"
@@ -32,8 +39,8 @@
             @save="saveUser"
           />
           <v-btn class="btn-add" @click="open"
-            ><v-icon class="mr-2" color="white"> mdi-account-plus </v-icon>NOVO
-            ALUNO</v-btn
+            ><v-icon class="mr-2" color="white"> mdi-account-plus </v-icon
+            ><span class="span-btn-add">NOVO ALUNO</span></v-btn
           >
         </v-col>
       </v-col>
@@ -48,8 +55,9 @@
           v-for="card in filteredNameAndEmail"
           :key="card.id"
           cols="12"
-          sm="3"
-          md="3"
+          sm="6"
+          md="4"
+          lg="3"
         >
           <Card :data="card" @emitir="editUser(card)" />
         </v-col>
@@ -131,7 +139,7 @@ export default {
     },
     open() {
       this.openDialog = true;
-      this.chosenFilter = "Todos"
+      this.chosenFilter = "Todos";
     },
     editUser(card) {
       this.user = { ...card };
@@ -157,8 +165,8 @@ export default {
 
       this.usersFiltered = chosenItems;
 
-      const d = this.filteredNameAndEmail
-      console.log(d)
+      const d = this.filteredNameAndEmail;
+      console.log(d);
     },
   },
   created() {
@@ -192,9 +200,15 @@ export default {
   height: 62% !important;
 }
 
-/* @media (min-width: 500px) {
- .spacer.space-container {
+.col-main-one {
+  height: 60px;
+}
+
+@media (max-width: 500px) {
+  .span-btn-add {
     display: none;
   }
-} */
+  .col-filter-display {
+  }
+}
 </style>
