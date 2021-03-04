@@ -113,6 +113,7 @@ export default {
       localStorage.setItem("usersApp", JSON.stringify(users));
       this.getUserLocalStorage();
       this.cleanDialog();
+      this.getFilteredItems();
       this.openDialog = false;
     },
     getUserLocalStorage() {
@@ -130,6 +131,7 @@ export default {
     },
     open() {
       this.openDialog = true;
+      this.chosenFilter = "Todos"
     },
     editUser(card) {
       this.user = { ...card };
@@ -162,7 +164,7 @@ export default {
   },
   updated() {
     this.uuid = uuid.v4();
-    this.getFilteredItems();
+    // this.getFilteredItems();
   },
   computed: {
     filteredNameAndEmail: function () {
