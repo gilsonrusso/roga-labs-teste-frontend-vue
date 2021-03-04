@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node server",
+    "postinstall": "npm run build",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "prod_mode": "vue-cli-service serve --mode production",
+    "dev_mode": "vue-cli-service serve --mode development",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
