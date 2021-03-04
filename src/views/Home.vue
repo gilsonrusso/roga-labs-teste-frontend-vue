@@ -45,7 +45,7 @@
       >
       <v-row v-if="users.length > 0">
         <v-col
-          v-for="card in usersFiltered"
+          v-for="card in filteredNameAndEmail"
           :key="card.id"
           cols="12"
           sm="3"
@@ -156,6 +156,9 @@ export default {
           : this.users;
 
       this.usersFiltered = chosenItems;
+
+      const d = this.filteredNameAndEmail
+      console.log(d)
     },
   },
   created() {
@@ -168,7 +171,7 @@ export default {
   },
   computed: {
     filteredNameAndEmail: function () {
-      return this.users.filter((user) => {
+      return this.usersFiltered.filter((user) => {
         let union = user.name + user.email;
         return union.match(this.search);
       });
