@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar />
-    <v-main class="mt-5">
+    <v-main>
       <Home />
     </v-main>
   </v-app>

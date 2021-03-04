@@ -51,11 +51,11 @@
         <small>*indicação de campos obrigatórios</small>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="blue darken-1" text @click="cancel()"
+        <v-btn class="btn btn-cancel" text @click="cancel()"
           ><strong>Cancelar</strong></v-btn
         >
         <v-spacer></v-spacer>
-        <v-btn class="btn-styled" color="blue darken-1" text @click="save()">{{
+        <v-btn class="btn btn-save" text @click="save()">{{
           user.id ? "Atualizar" : "Salvar"
         }}</v-btn>
       </v-card-actions>
@@ -82,4 +82,15 @@ export default {
 </script>
 
 <style>
+.btn-save {
+  background-color: var(--main-color);
+  color: #ffff !important;
+}
+.btn-cancel {
+  color: var(--second-color) !important;
+}
+.v-card__title {
+  background-color: var(--second-color);
+  color: #ffff;
+}
 </style>

@@ -1,49 +1,51 @@
 <template>
   <v-container>
     <v-row class="d-flex align-center">
-      <v-col cols="4">
-        <v-flex>
-          <v-form>
-            <v-text-field
-              :disabled="users.length == 0"
-              outlined
-              label="Busque por nomes ou e-mail"
-              v-model="search"
-              append-icon="mdi-magnify"
-            ></v-text-field>
-          </v-form>
-        </v-flex>
+      <v-col cols="12" xs="12" sm="12" md="4" lg="4">
+        <v-text-field
+          :disabled="users.length == 0"
+          outlined
+          label="Busque por nomes ou e-mail"
+          v-model="search"
+          append-icon="mdi-magnify"
+        ></v-text-field>
       </v-col>
-      <v-spacer></v-spacer>
-      <v-col cols="5" class="d-flex">
-        <v-col cols="6" class="d-flex">
+      <v-spacer class="space-container"></v-spacer>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="d-flex">
+        <v-col cols="8" xs="6" sm="6" md="6" lg="6" class="d-flex">
           <span class="py-3 mr-1"><strong>Filtros:</strong></span>
           <v-select
             :items="items"
             label="Escolha"
-            v-model="filter"
+            v-model="chosenFilter"
+            @change="getFilteredItems"
             :disabled="users.length == 0"
             solo
           ></v-select>
         </v-col>
-        <v-col cols="6">
+
+        <v-col cols="4">
           <Popup
             @closeDialog="cancel"
             :isOpen="openDialog"
             :user="user"
             @save="saveUser"
           />
-          <v-btn @click="open">Adicionar</v-btn>
+          <v-btn class="btn-add" @click="open"
+            ><v-icon class="mr-2" color="white"> mdi-account-plus </v-icon>NOVO
+            ALUNO</v-btn
+          >
         </v-col>
       </v-col>
     </v-row>
+    <!-- Container Cards -->
     <v-row>
       <v-row v-show="users.length == 0" class="justify-center my-10"
         ><h3 class="title">Não há usuários cadastrados</h3></v-row
       >
       <v-row v-if="users.length > 0">
         <v-col
-          v-for="card in filteredNameAndEmail"
+          v-for="card in usersFiltered"
           :key="card.id"
           cols="12"
           sm="3"
@@ -78,10 +80,11 @@ export default {
       disabled: false,
     },
     users: [],
+    usersFiltered: [],
     items: ["Todos", "Ativos", "Inativos"],
     openDialog: false,
     search: "",
-    filter: "todos",
+    chosenFilter: "Todos",
   }),
   methods: {
     saveUser() {
@@ -120,8 +123,7 @@ export default {
       }
     },
     cleanDialog() {
-      (this.user.id = ""),
-        (this.user.name = ""),
+      (this.user.name = ""),
         (this.user.email = ""),
         (this.user.age = ""),
         (this.user.phone = "");
@@ -137,12 +139,30 @@ export default {
       this.cleanDialog();
       this.openDialog = false;
     },
+    getFilteredItems() {
+      const inativeItems = this.users.filter(
+        (element) => element.disabled === true
+      );
+      const activeItems = this.users.filter(
+        (element) => element.disabled === false
+      );
+      const chosenItems =
+        this.chosenFilter === "Ativos"
+          ? activeItems
+          : this.chosenFilter === "Inativos"
+          ? inativeItems
+          : this.users;
+
+      this.usersFiltered = chosenItems;
+    },
   },
   created() {
     this.getUserLocalStorage();
+    this.usersFiltered = this.users;
   },
   updated() {
     this.uuid = uuid.v4();
+    this.getFilteredItems();
   },
   computed: {
     filteredNameAndEmail: function () {
@@ -156,25 +176,20 @@ export default {
 </script>
 
 <style>
-.theme--dark.v-btn.v-btn--has-bg {
-  background-color: var(--main-color);
+.v-application {
+  min-width: 360px;
+  padding: 20px;
 }
 
-.v-card__title {
-  background-color: var(--second-color);
-  color: #ffff;
-}
-
-.v-application .blue--text.text--darken-1 {
-  color: var(--second-color) !important;
-}
-
-.v-application .blue--text.text--darken-1.btn-styled {
-  background-color: var(--main-color);
+.btn-add {
+  background-color: var(--main-color) !important;
   color: #ffff !important;
+  height: 62% !important;
 }
 
-.title {
-  color: var(--font-color);
-}
+/* @media (min-width: 500px) {
+ .spacer.space-container {
+    display: none;
+  }
+} */
 </style>
