@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --main-color: #e65100;
+  --hover-color: #ef6c00;
+  --second-color: #280e95;
+  --third-color: #c5c5c5;
+  --font-color: #818181;
+  --box-color: white;
+}
