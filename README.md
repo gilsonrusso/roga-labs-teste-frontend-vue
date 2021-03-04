@@ -5,7 +5,7 @@
 </p>
 
 
-## Description in Português Language
+## Description in Portuguese Language
 Uma aplicação web desenvolvida com as tecnologias do [VueJs] https://br.vuejs.org/ junto com a biblioteca do [vuetify] https://vuetifyjs.com/en/
 Está app monstra um modelo de dashboard de cadastro, que contém apenas uma view e um modal-dialog para fazer os cadastros, onde seus dados são persistidos
 diretamente no localStorage.
