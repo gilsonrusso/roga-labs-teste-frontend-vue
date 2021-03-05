@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="d-flex align-center">
+    <v-row class="d-flex align-center animationLeft">
       <v-col cols="12" xs="12" sm="12" md="4" lg="4" class="col-main-one">
         <v-text-field
           :disabled="users.length == 0"
@@ -18,7 +18,7 @@
           sm="6"
           md="6"
           lg="6"
-          class="d-flex col-filter-display"
+          class="d-flex animationLeft"
         >
           <span class="py-3 mr-1"><strong>Filtros:</strong></span>
           <v-select
@@ -31,7 +31,7 @@
           ></v-select>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="4" class="animationLeft">
           <Popup
             @closeDialog="cancel"
             :isOpen="openDialog"
@@ -46,7 +46,7 @@
       </v-col>
     </v-row>
     <!-- Container Cards -->
-    <v-row>
+    <v-row class="row-main">
       <v-row v-show="users.length == 0" class="justify-center my-10"
         ><h3 class="title">Não há usuários cadastrados</h3></v-row
       >
@@ -208,7 +208,44 @@ export default {
   .span-btn-add {
     display: none;
   }
-  .col-filter-display {
+}
+
+.animationLeft{
+  animation: moverEsquerda 1s ease-in;
+
+}
+.row-main{
+   animation: moverParaCima 1s ease-in;
+}
+
+@keyframes moverEsquerda {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moverDireita {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moverParaCima {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
   }
 }
 </style>
